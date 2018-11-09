@@ -8,17 +8,17 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
+          <p> Welcome!!! </p>
+          <p> What's your <code> ID </code>? </p>
           <p>
-            Edit <code>src/App.js</code> and save to reload.
+            <form>
+              <label>
+                <input type="text" name="name" />
+              </label>
+            </form>
           </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <p> <input type="submit" value="Submit" /> </p>
+            
         </header>
       </div>
     );
