@@ -1,28 +1,11 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Welcome from './components/Welcome.js';
+// import './App.css';
 
-class App extends Component {
+export default class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p> Welcome!!! </p>
-          <p> What's your <code> ID </code>? </p>
-          <p>
-            <form>
-              <label>
-                <input type="text" name="name" />
-              </label>
-            </form>
-          </p>
-          <p> <input type="submit" value="Submit" /> </p>
-            
-        </header>
-      </div>
-    );
+      <Welcome/>
+    )  
   }
 }
-
-export default App;
