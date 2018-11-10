@@ -37,13 +37,14 @@ export default class Welcome extends Component {
   }
 
   render() {
-    let { to } = { to : { pathname: "/dashboard" } };
+    let { dashboard } = { dashboard : { pathname: "/dashboard" } };
 
     if (this.state.redirect) {
       return (
         <Router> 
           <div>
-            <Redirect to={to} />
+            // Currently having redirect loop *I think*. Follow this to fix: https://stackoverflow.com/questions/47345391/react-router-v4-how-to-prevent-redirect-loops
+            <Redirect to={dashboard} />
             <Route path='/dashboard' component={Dashbd} push={true} />
           </div>
         </Router>
