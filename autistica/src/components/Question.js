@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import fire from '../db.js';
 import "./Question.css";
 import question_text from  './questions_text.js';
-//import fire from './fire';
-//import './App.css';
 import { BrowserRouter as Router, Route, Link} from "react-router-dom";
 import { Redirect } from 'react-router';
 import Dashboard from './Dashboard.js';
