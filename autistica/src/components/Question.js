@@ -22,7 +22,7 @@ class Question extends Component {
   constructor(props) {
     super(props);
     this.state = {qs: [],
-                  type: question_option,
+                  type: [],
                   ans: [],
                   text: 'Select',
                   point: 0,
@@ -49,7 +49,7 @@ class Question extends Component {
     })
 
     question_types.once('value', snapshot => {
-      snapshot.forEach(child => this.setState(this.state.type.concat(child.node_.value_)));
+      snapshot.forEach(child => this.setState({type : this.state.type.concat(child.node_.value_)}));
     })
   }
 
