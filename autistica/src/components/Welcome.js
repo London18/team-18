@@ -1,21 +1,28 @@
 import React, { Component } from 'react';
-import Dashboard from './Dashboard.js';
 import logo from '../logo.svg';
 import './Welcome.css';
 import { BrowserRouter as Router, Link, Route} from "react-router-dom";
 import { Redirect, Switch} from 'react-router';
 
+import Dashboard from './Dashboard.js';
+import Questions from './Questions.js'
+
 const Dashbd = () => <Dashboard />;
+const Question = () => <Questions />;
 
 export default class Welcome extends Component {
   constructor(props) {
     super(props);
     this.state = {id: '',
-              redirect: false
+
+              redirect: false,
+              showQuestions: false
+
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.goToDashboard = this.goToDashboard.bind(this);
+    this.goToQuestions = this.goToQuestions.bind(this);
   }
 
   handleChange(event) {
@@ -30,6 +37,11 @@ export default class Welcome extends Component {
       this.setState({redirect: true});
       event.preventDefault();
     }
+  }
+
+  goToQuestions(event) {
+      this.setState({showQuestions: true});
+      event.preventDefault();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -51,6 +63,17 @@ export default class Welcome extends Component {
       )
     };
 
+    if (this.state.showQuestions) {
+        return (
+          <Router>
+            <div>
+              <Redirect to={'/questions'} />
+              <Route path='/questions' component={Question} push={true} />
+            </div>
+          </Router>
+        )
+      };
+
     return (
       <div className="App">
         <header className="App-header">
@@ -65,10 +88,15 @@ export default class Welcome extends Component {
             </label>
           </form>
 
+
           <div>
             <input type="submit" name="Let's start" onClick={this.goToDashboard}/>
           </div>
-    
+
+          <div>
+             <input type="submit" name="Let's start" onClick={this.goToQuestions}/>
+           </div>
+
           <p><a
             className="Autistica Website"
             href="https://www.autistica.org.uk/"
