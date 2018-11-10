@@ -88,7 +88,7 @@ class Question extends Component {
   // }
 
   render() {
-    let answervals;
+    let answervals, qsdescr;
     if(this.state.qnum == null){
       this.state.qnum = Math.floor(Math.random() * (this.state.qs.length));
     }
@@ -113,6 +113,7 @@ class Question extends Component {
       <option value="no">no</option>
     </select>
     	</div>);
+      qsdescr = "Answer Yes or No ";
     } else if (this.state.type[this.state.qnum] == "scale_0_to_3") {
       answervals = (<div>
   	 <select id='answer' onChange={this.handleChange}
@@ -125,6 +126,7 @@ class Question extends Component {
 
   </select>
   	</div>);
+    qsdescr = "Rate on a scale of 0 to 3 ";
   } else {
     answervals = (<div>
   	 <select id='answer' onChange={this.handleChange}
@@ -137,13 +139,16 @@ class Question extends Component {
   <option value="5">5</option>
   </select>
   	</div>);
+    qsdescr = "Rate on a scale of 1 to 5 ";
   }
     return (
       <div className = "Question">
         <TodoList ans={this.state.ans} point={this.state.point}/>
         <form onSubmit={this.handleSubmit} className = "Question-header">
           <label htmlFor="new-todo">
-            Question {this.state.ans.length + 1}: {this.state.qs[this.state.qnum]}
+            Question {this.state.ans.length + 1}: {qsdescr}
+            <br />
+            {this.state.qs[this.state.qnum]}
           </label>
           <br />
 
@@ -170,11 +175,7 @@ class TodoList extends Component {
     return (
       <div>
       <h4> Points = {this.props.point} </h4>
-      // <ul>
-      // {this.props.ans.map(item => (
-      //     <li>{item}</li>
-      //   ))}
-      // </ul>
+
       </div>
     );
   }
