@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
+import Dashboard from './Dashboard.js';
 import logo from '../logo.svg';
 import './Welcome.css';
-import { BrowserRouter as Router, Link} from "react-router-dom";
-import { Redirect } from 'react-router';
+import { BrowserRouter as Router, Link,} from "react-router-dom";
+import { Redirect, Switch} from 'react-router';
 
-class Welcome extends Component {
+export default class Welcome extends Component {
   constructor(props) {
     super(props);
     this.state = {id: '',
-                redirect: false
+              redirect: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -30,9 +31,15 @@ class Welcome extends Component {
   }
 
   render() {
+    let { to } = { to : { pathname: "/dashboard" } };
+
     if (this.state.redirect === true) {
-      return <Redirect to={{pathname: '/dahsboard'}} push />
-    }
+      return (
+        <Router>
+          <Redirect to={to} component={<Dashboard/>}  />
+        </Router>
+      )
+    };
 
     return (
       <div className="App">
@@ -48,13 +55,10 @@ class Welcome extends Component {
             </label>
           </form>
           
-          <Router>
-            <div>
-              <Link to="/dashboard">
-                <input type="submit" name="Let's start" onClick={this.goToDashboard}/>
-              </Link>
-            </div>
-          </Router>
+          <div>
+              <input type="submit" name="Let's start" onClick={this.goToDashboard}/>
+          </div>
+
           <p><a
             className="Autistica Website"
             href="https://www.autistica.org.uk/"
@@ -68,5 +72,3 @@ class Welcome extends Component {
     );
   }
 }
-
-export default Welcome;
