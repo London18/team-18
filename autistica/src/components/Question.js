@@ -171,11 +171,6 @@ class TodoList extends Component {
     return (
       <div>
       <h4> Points = {this.props.point} </h4>
-      {/* // <ul>
-      // {this.props.ans.map(item => (
-      //     <li>{item}</li>
-      //   ))}
-      // </ul> */}
       </div>
     );
   }
