@@ -16,8 +16,9 @@ class Question extends Component {
     this.state = {qs: question_text,
                   type: question_options,
                   ans: [],
-                  text: '',
+                  text: 'Select',
                   point: 0,
+                  qnum: null,
                   showDashboard: false};
     this.handleSkip = this.handleSkip.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -34,47 +35,64 @@ class Question extends Component {
     e.preventDefault();
     this.setState(state => ({
       ans: state.ans.concat('skip'),
-      text: ''
+      text: '',
+      qnum: Math.floor(Math.random() * (this.state.qs.length))
     }));
     if(this.state.ans.length >= 4) {
       this.setState(state => ({
         ans: [],
-        text: '',
+        text: 'Select',
         point: 0,
         showDashboard: true
       }));
     };
+
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    if (!this.state.text.length) {
+    if (this.state.text == 'Select') {
       return;
     }
     if(this.state.ans.length >= 4) {
       this.setState(state => ({
         ans: [],
-        text: '',
+        text: 'Select',
         point: 0,
         showDashboard: true
       }));
     } else {
       this.setState(state => ({
         ans: state.ans.concat(this.state.text),
-        text: '',
-        point: state.point + 1
+        text: 'Select',
+        point: state.point + 1,
+        qnum: Math.floor(Math.random() * (this.state.qs.length))
       }));
     }
+
+    this.forceUpdate();
+
   }
 
+  // forceUpdate() {
+  //   this.render();
+  // }
+
   handleChange(e) {
-    e.preventDefault();
     this.setState({ text: e.target.value });
+    e.preventDefault();
+
   }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return false;
+  // }
 
   render() {
     let answervals;
-    let qnum = Math.floor(Math.random() * (this.state.qs.length));
+    if(this.state.qnum == null){
+      this.state.qnum = Math.floor(Math.random() * (this.state.qs.length));
+    }
+
 
     if (this.state.showDashboard) {
         return (
@@ -86,7 +104,7 @@ class Question extends Component {
           </Router>
         )
       };
-    if(this.state.type[qnum] == "yes_no") {
+    if(this.state.type[this.state.qnum] == "yes_no") {
       answervals =  (<div>
     	 <select id='answer' onChange={this.handleChange}
        value={this.state.text}>
@@ -95,7 +113,7 @@ class Question extends Component {
       <option value="no">no</option>
     </select>
     	</div>);
-    } else if (this.state.type[qnum] == "scale_0_to_3") {
+    } else if (this.state.type[this.state.qnum] == "scale_0_to_3") {
       answervals = (<div>
   	 <select id='answer' onChange={this.handleChange}
      value={this.state.text}>
@@ -125,7 +143,7 @@ class Question extends Component {
         <TodoList ans={this.state.ans} point={this.state.point}/>
         <form onSubmit={this.handleSubmit} className = "Question-header">
           <label htmlFor="new-todo">
-            Question {this.state.ans.length + 1}: {this.state.qs[qnum]}
+            Question {this.state.ans.length + 1}: {this.state.qs[this.state.qnum]}
           </label>
           <br />
 
@@ -152,11 +170,11 @@ class TodoList extends Component {
     return (
       <div>
       <h4> Points = {this.props.point} </h4>
-      <ul>
-      {this.props.ans.map(item => (
-          <li>{item}</li>
-        ))}
-      </ul>
+      // <ul>
+      // {this.props.ans.map(item => (
+      //     <li>{item}</li>
+      //   ))}
+      // </ul>
       </div>
     );
   }
