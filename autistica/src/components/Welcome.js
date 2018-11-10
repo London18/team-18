@@ -6,8 +6,6 @@ import { Redirect} from 'react-router';
 
 import Dashboard from './Dashboard.js';
 
-const Dashbd = () => <Dashboard />;
-
 export default class Welcome extends Component {
   constructor(props) {
     super(props);
@@ -51,7 +49,7 @@ export default class Welcome extends Component {
           <div>
             {/* Currently having redirect loop *I think*. Follow this to fix: https://stackoverflow.com/questions/47345391/react-router-v4-how-to-prevent-redirect-loops */}
             <Redirect to={dashboard} />
-            <Route path='/dashboard' component={Dashbd} push={true}/>
+            <Route path='/dashboard' component={() => <Dashboard uid={this.state.uid}/> } push={true}/>
           </div>
         </Router>
       )

@@ -8,8 +8,6 @@ import Question from './Question.js';
 import Welcome from './Welcome.js'
 import './Dashboard.css';
 
-//const Question = () => <Question />;
-
 export default class Dashboard extends React.Component {
 
   constructor(props) {
@@ -44,7 +42,7 @@ export default class Dashboard extends React.Component {
           <Router>
             <div>
               <Redirect to={'/dashboard/questions'} />
-              <Route path='/dashboard/questions' component={Question} push={true} />
+              <Route path='/dashboard/questions' component={() => Question = () => <Question uid={this.props.uid}/>} push={true} />
             </div>
           </Router>
         )
