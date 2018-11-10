@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import fire from '../db.js';
 import "./Question.css";
+import question_text from  './questions_text.js';
 //import fire from './fire';
 //import './App.css';
 import { BrowserRouter as Router, Route, Link} from "react-router-dom";
@@ -11,7 +12,7 @@ import Dashboard from './Dashboard.js';
 class Question extends Component {
   constructor(props) {
     super(props);
-    this.state = {qs: ['sup?', 'okay?', 'what?', 'how?', 'when?'],
+    this.state = {qs: question_text,
                   ans: [],
                   text: '',
                   point: 0,
