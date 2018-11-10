@@ -47,11 +47,11 @@ export default class Welcome extends Component {
 
     if (this.state.redirect) {
       return (
-        <Router> 
+        <Router>
           <div>
             {/* Currently having redirect loop *I think*. Follow this to fix: https://stackoverflow.com/questions/47345391/react-router-v4-how-to-prevent-redirect-loops */}
             <Redirect to={dashboard} />
-            <Route path='/dashboard' component={Dashbd} push={true} />
+            <Route path='/dashboard' component={Dashbd} push={true}/>
           </div>
         </Router>
       )
@@ -62,9 +62,9 @@ export default class Welcome extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           Welcome!!!
-          <br/> 
+          <br/>
           <p>What's your <code>ID</code>?</p>
-          
+
           <form onSubmit={this.goToDashboard}>
             <label>
               <input type="text" name="name" id={this.state.id} onChange={this.handleChange}/>
@@ -82,7 +82,7 @@ export default class Welcome extends Component {
             target="_blank"
             rel="noopener noreferrer"
             color=""
-          > Haven't got an <code>ID</code>? Create one now! 
+          > Haven't got an <code>ID</code>? Create one now!
           </a></p>
         </header>
       </div>
