@@ -1,29 +1,53 @@
 import React, { Component } from 'react';
 import fire from '../db.js';
 import "./Question.css";
-import question_text from  './questions_text.js';
-import question_options from  './questions_options.js';
-//import fire from './fire';
-//import './App.css';
 import { BrowserRouter as Router, Route, Link} from "react-router-dom";
 import { Redirect } from 'react-router';
 import Dashboard from './Dashboard.js';
 
+const ProgressBar = (props) => {
+  return (
+    <div className="progress-bar">
+      <Filler percentage={props.percentage} />
+    </div>
+  )
+}
+
+const Filler = (props) => {
+  return <div className="filler" style={{width: `${props.percentage}%`}} />
+}
 
 class Question extends Component {
   constructor(props) {
     super(props);
-    this.state = {qs: question_text,
-                  type: question_options,
+    this.state = {qs: [],
+                  type: [],
                   ans: [],
                   text: 'Select',
                   point: 0,
+                  numQu: 5,
                   qnum: null,
-                  showDashboard: false};
+                  showDashboard: false,
+                  percentage: 0,
+                  };
     this.handleSkip = this.handleSkip.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.goToDashboard = this.goToDashboard.bind(this);
+  }
+
+  componentDidMount() {
+    const question_types = fire.database().ref().child('Formats').orderByKey();
+    const question_bank = fire.database().ref().child('Questions').orderByKey();
+    question_types.once('value', snapshot => {
+      snapshot.forEach(child => this.setState(this.state.type.concat(child.node_.value_)));
+    })
+
+    question_bank.once('value', snapshot => {
+      snapshot.forEach(child => {
+        this.setState({qs : this.state.qs.concat(child.node_.value_)});
+      });
+    })
   }
 
   goToDashboard(event) {
@@ -36,14 +60,16 @@ class Question extends Component {
     this.setState(state => ({
       ans: state.ans.concat('skip'),
       text: '',
-      qnum: Math.floor(Math.random() * (this.state.qs.length))
+      qnum: Math.floor(Math.random() * (this.state.qs.length)),
+      percentage: state.percentage + 100 / state.numQu,
     }));
     if(this.state.ans.length >= 4) {
       this.setState(state => ({
         ans: [],
         text: 'Select',
         point: 0,
-        showDashboard: true
+        showDashboard: true,
+        percentage: state.percentage + 100 / state.numQu,
       }));
     };
 
@@ -59,14 +85,16 @@ class Question extends Component {
         ans: [],
         text: 'Select',
         point: 0,
-        showDashboard: true
+        showDashboard: true,
+        percentage: state.percentage + 100 / state.numQu,
       }));
     } else {
       this.setState(state => ({
         ans: state.ans.concat(this.state.text),
         text: 'Select',
         point: state.point + 1,
-        qnum: Math.floor(Math.random() * (this.state.qs.length))
+        qnum: Math.floor(Math.random() * (this.state.qs.length)),
+        percentage: state.percentage + 100 / state.numQu,
       }));
     }
 
@@ -74,21 +102,14 @@ class Question extends Component {
 
   }
 
-  // forceUpdate() {
-  //   this.render();
-  // }
-
   handleChange(e) {
     this.setState({ text: e.target.value });
     e.preventDefault();
 
   }
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   return false;
-  // }
 
   render() {
-    let answervals;
+    let answervals, qsdescr;
     if(this.state.qnum == null){
       this.state.qnum = Math.floor(Math.random() * (this.state.qs.length));
     }
@@ -113,6 +134,7 @@ class Question extends Component {
       <option value="no">no</option>
     </select>
     	</div>);
+      qsdescr = "Answer Yes or No ";
     } else if (this.state.type[this.state.qnum] == "scale_0_to_3") {
       answervals = (<div>
   	 <select id='answer' onChange={this.handleChange}
@@ -125,6 +147,7 @@ class Question extends Component {
 
   </select>
   	</div>);
+    qsdescr = "Rate on a scale of 0 to 3 ";
   } else {
     answervals = (<div>
   	 <select id='answer' onChange={this.handleChange}
@@ -137,13 +160,21 @@ class Question extends Component {
   <option value="5">5</option>
   </select>
   	</div>);
+    qsdescr = "Rate on a scale of 1 to 5 ";
   }
     return (
+    <div>
+      <div>
+       <ProgressBar percentage={this.state.percentage} />
+      </div>
+
       <div className = "Question">
         <TodoList ans={this.state.ans} point={this.state.point}/>
         <form onSubmit={this.handleSubmit} className = "Question-header">
           <label htmlFor="new-todo">
-            Question {this.state.ans.length + 1}: {this.state.qs[this.state.qnum]}
+            Question {this.state.ans.length + 1}: {qsdescr}
+            <br />
+            {this.state.qs[this.state.qnum]}
           </label>
           <br />
 
@@ -162,6 +193,8 @@ class Question extends Component {
           </button></center>
         </form>
       </div>
+    </div>
+
     );
   }
 }
