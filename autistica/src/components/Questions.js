@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import fire from '../db.js';
 import "./Question.css";
+import question_text from  './questions_text.js';
 //import fire from './fire';
 //import './App.css';
 
 class Question extends Component {
   constructor(props) {
     super(props);
-    this.state = {qs: ['sup?', 'okay?', 'what?', 'how?', 'when?'], ans: [], text: '', point: 0};
+    this.state = {qs: question_text, ans: [], text: '', point: 0};
     this.handleSkip = this.handleSkip.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
