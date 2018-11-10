@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import fire from '../db.js';
 import "./Question.css";
 import question_text from  './questions_text.js';
+import question_options from  './questions_options.js';
 //import fire from './fire';
 //import './App.css';
 import { BrowserRouter as Router, Route, Link} from "react-router-dom";
@@ -13,6 +14,7 @@ class Question extends Component {
   constructor(props) {
     super(props);
     this.state = {qs: question_text,
+                  type: question_options,
                   ans: [],
                   text: '',
                   point: 0,
@@ -28,7 +30,8 @@ class Question extends Component {
     event.preventDefault();
   }
 
-  handleSkip() {
+  handleSkip(e) {
+    e.preventDefault();
     this.setState(state => ({
       ans: state.ans.concat('skip'),
       text: ''
@@ -65,10 +68,14 @@ class Question extends Component {
   }
 
   handleChange(e) {
+    e.preventDefault();
     this.setState({ text: e.target.value });
   }
 
   render() {
+    let answervals;
+    let qnum = Math.floor(Math.random() * (this.state.qs.length));
+
     if (this.state.showDashboard) {
         return (
           <Router>
@@ -79,19 +86,50 @@ class Question extends Component {
           </Router>
         )
       };
+    if(this.state.type[qnum] == "yes_no") {
+      answervals =  (<div>
+    	 <select id='answer' onChange={this.handleChange}
+       value={this.state.text}>
+       <option value="Select">Select Option</option>
+      <option value="yes">yes</option>
+      <option value="no">no</option>
+    </select>
+    	</div>);
+    } else if (this.state.type[qnum] == "scale_0_to_3") {
+      answervals = (<div>
+  	 <select id='answer' onChange={this.handleChange}
+     value={this.state.text}>
+     <option value="Select">Select Option</option>
+    <option value="0">0</option>
+    <option value="1">1</option>
+      <option value="2">2</option>
+    <option value="3">3</option>
+
+  </select>
+  	</div>);
+  } else {
+    answervals = (<div>
+  	 <select id='answer' onChange={this.handleChange}
+     value={this.state.text}>
+     <option value="Select">Select Option</option>
+    <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+  </select>
+  	</div>);
+  }
     return (
       <div className = "Question">
         <TodoList ans={this.state.ans} point={this.state.point}/>
         <form onSubmit={this.handleSubmit} className = "Question-header">
           <label htmlFor="new-todo">
-            Question {this.state.ans.length + 1}: {this.state.qs[this.state.ans.length]}
+            Question {this.state.ans.length + 1}: {this.state.qs[qnum]}
           </label>
           <br />
-          <input
-            id="new-todo"
-            onChange={this.handleChange}
-            value={this.state.text}
-          />
+
+          {answervals}
           <br />
           <center><button>
             Submit
@@ -114,7 +152,11 @@ class TodoList extends Component {
     return (
       <div>
       <h4> Points = {this.props.point} </h4>
-
+      <ul>
+      {this.props.ans.map(item => (
+          <li>{item}</li>
+        ))}
+      </ul>
       </div>
     );
   }
