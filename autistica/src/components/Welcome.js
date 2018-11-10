@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import logo from '../logo.svg';
 import './Welcome.css';
-import { BrowserRouter as Router, Link, Route} from "react-router-dom";
-import { Redirect, Switch} from 'react-router';
+import { BrowserRouter as Router, Route} from "react-router-dom";
+import { Redirect} from 'react-router';
 
 import Dashboard from './Dashboard.js';
 import Questions from './Questions.js'
@@ -48,6 +48,11 @@ export default class Welcome extends Component {
     return !this.state.redirect;
   }
 
+  componentDidUpdate() {
+    if (this.state.redirect)
+      this.setState({redirect : false});
+  }
+
   render() {
     let { dashboard } = { dashboard : { pathname: "/dashboard" } };
 
@@ -55,7 +60,7 @@ export default class Welcome extends Component {
       return (
         <Router> 
           <div>
-            // Currently having redirect loop *I think*. Follow this to fix: https://stackoverflow.com/questions/47345391/react-router-v4-how-to-prevent-redirect-loops
+            {/* Currently having redirect loop *I think*. Follow this to fix: https://stackoverflow.com/questions/47345391/react-router-v4-how-to-prevent-redirect-loops */}
             <Redirect to={dashboard} />
             <Route path='/dashboard' component={Dashbd} push={true} />
           </div>
