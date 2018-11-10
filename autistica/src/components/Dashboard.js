@@ -42,7 +42,7 @@ export default class Dashboard extends React.Component {
           <Router>
             <div>
               <Redirect to={'/dashboard/questions'} />
-              <Route path='/dashboard/questions' component={() => Question = () => <Question uid={this.props.uid}/>} push={true} />
+              <Route path='/dashboard/questions' component={() => <Question uid={this.props.uid}/>} push={true} />
             </div>
           </Router>
         )
