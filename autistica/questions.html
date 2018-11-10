@@ -28,7 +28,7 @@
 
   	var userId=1;
 	  var data=null;
-	  var database = firebase.database();
+	  var database = firebase.database(); #Create reference to database
 		database.ref('/').once('value').then(function(snapshot) {
 	  	console.log(snapshot.val());
 
