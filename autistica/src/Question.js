@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import "./Question.css";
+//import fire from './fire';
 //import './App.css';
 
 class Question extends Component {
@@ -49,9 +51,9 @@ class Question extends Component {
   }
   render() {
     return (
-      <div>
+      <div className = "Question">
         <TodoList ans={this.state.ans} point={this.state.point}/>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} className = "Question-header">
           <label htmlFor="new-todo">
             Question {this.state.ans.length + 1}: {this.state.qs[this.state.ans.length]}
           </label>
@@ -66,7 +68,7 @@ class Question extends Component {
             Submit
           </button></center>
           <br />
-          <center><button onClick={this.handleSkip}>
+          <center><button className="Question-button-skip" onClick={this.handleSkip}>
             Skip
           </button></center>
         </form>
@@ -79,11 +81,7 @@ class TodoList extends Component {
     return (
       <div>
       <h4> Points = {this.props.point} </h4>
-      <ul>
-        {this.props.ans.map((item, i) => (
-          <li>{item}</li>
-        ))}
-      </ul>
+
       </div>
     );
   }
