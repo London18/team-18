@@ -34,6 +34,21 @@ button:hover {
   padding: 15px 32px;
 }
 
+.progress-bar {
+  background-color: #282c34;
+  position: relative;
+  height: 20px;
+  width: 100%;
+  border: 1px solid black;
+}
+
+.filler {
+ background: #00EE06;
+ height: 100%;
+ border-radius: inherit;
+ transition: width .2s ease-in;
+}
+
 a {
   color: #FFF;
 }

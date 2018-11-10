@@ -9,6 +9,17 @@ import { BrowserRouter as Router, Route, Link} from "react-router-dom";
 import { Redirect } from 'react-router';
 import Dashboard from './Dashboard.js';
 
+  const ProgressBar = (props) => {
+    return (
+      <div className="progress-bar">
+        <Filler percentage={props.percentage} />
+      </div>
+    )
+  }
+
+    const Filler = (props) => {
+      return <div className="filler" style={{width: `${props.percentage}%`}} />
+    }
 
 class Question extends Component {
   constructor(props) {
@@ -18,8 +29,11 @@ class Question extends Component {
                   ans: [],
                   text: 'Select',
                   point: 0,
+                  numQu: 5,
                   qnum: null,
-                  showDashboard: false};
+                  showDashboard: false,
+                  percentage: 0,
+                  };
     this.handleSkip = this.handleSkip.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -36,14 +50,16 @@ class Question extends Component {
     this.setState(state => ({
       ans: state.ans.concat('skip'),
       text: '',
-      qnum: Math.floor(Math.random() * (this.state.qs.length))
+      qnum: Math.floor(Math.random() * (this.state.qs.length)),
+      percentage: state.percentage + 100 / state.numQu,
     }));
     if(this.state.ans.length >= 4) {
       this.setState(state => ({
         ans: [],
         text: 'Select',
         point: 0,
-        showDashboard: true
+        showDashboard: true,
+        percentage: state.percentage + 100 / state.numQu,
       }));
     };
 
@@ -59,14 +75,16 @@ class Question extends Component {
         ans: [],
         text: 'Select',
         point: 0,
-        showDashboard: true
+        showDashboard: true,
+        percentage: state.percentage + 100 / state.numQu,
       }));
     } else {
       this.setState(state => ({
         ans: state.ans.concat(this.state.text),
         text: 'Select',
         point: state.point + 1,
-        qnum: Math.floor(Math.random() * (this.state.qs.length))
+        qnum: Math.floor(Math.random() * (this.state.qs.length)),
+        percentage: state.percentage + 100 / state.numQu,
       }));
     }
 
@@ -142,6 +160,11 @@ class Question extends Component {
     qsdescr = "Rate on a scale of 1 to 5 ";
   }
     return (
+    <div>
+      <div>
+       <ProgressBar percentage={this.state.percentage} />
+      </div>
+
       <div className = "Question">
         <TodoList ans={this.state.ans} point={this.state.point}/>
         <form onSubmit={this.handleSubmit} className = "Question-header">
@@ -167,6 +190,8 @@ class Question extends Component {
           </button></center>
         </form>
       </div>
+    </div>
+
     );
   }
 }
