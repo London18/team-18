@@ -1,0 +1,42 @@
+.Dashboard {
+  text-align: center;
+}
+
+.Dashboard-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.Dashboard-link {
+  color: #61dafb;
+}
+
+button {
+  background-color: #00EE06;
+  font-size: 20px;
+  padding: 15px 32px;
+  border-radius: 12px;
+}
+
+button:hover {
+  background-color: #FF0000;
+}
+
+.Dashboard-button-skip {
+  background-color: #F4FF00;
+  font-size: 20px;
+  padding: 15px 32px;
+}
+
+a {
+  color: #FFF;
+}
+a:hover {
+   color: #00F
+}

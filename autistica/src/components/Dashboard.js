@@ -5,6 +5,7 @@ import './Welcome.css';
 import { BrowserRouter as Router, Route, Link} from "react-router-dom";
 import { Redirect } from 'react-router';
 import Questions from './Questions.js';
+import './Dashboard.css';
 
 const Question = () => <Questions />;
 
@@ -42,9 +43,11 @@ export default class Dashboard extends React.Component {
       };
 
     return (
+      <div className='Dashboard-header'>
             <button onClick={this.goToQuestions}>
               Start Questions!
             </button>
+      </div>
     )
     }
 
