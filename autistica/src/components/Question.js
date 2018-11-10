@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import fire from '../db.js';
 import "./Question.css";
-import question_option from './questions_options.js';
 import { BrowserRouter as Router, Route, Link} from "react-router-dom";
 import { Redirect } from 'react-router';
 import Dashboard from './Dashboard.js';
@@ -38,7 +37,6 @@ class Question extends Component {
   }
 
   componentDidMount() {
-    var count=0;
     const question_types = fire.database().ref().child('Formats').orderByKey();
     const question_bank = fire.database().ref().child('Questions').orderByKey();
 
