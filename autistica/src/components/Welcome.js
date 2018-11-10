@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import Dashboard from './Dashboard.js';
 import logo from '../logo.svg';
 import './Welcome.css';
-import { BrowserRouter as Router, Link,} from "react-router-dom";
+import { BrowserRouter as Router, Link, Route} from "react-router-dom";
 import { Redirect, Switch} from 'react-router';
+
+const Dashbd = () => <Dashboard />;
 
 export default class Welcome extends Component {
   constructor(props) {
@@ -30,13 +32,20 @@ export default class Welcome extends Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return !this.state.redirect;
+  }
+
   render() {
     let { to } = { to : { pathname: "/dashboard" } };
 
-    if (this.state.redirect === true) {
+    if (this.state.redirect) {
       return (
-        <Router>
-          <Redirect to={to} component={<Dashboard/>}  />
+        <Router> 
+          <div>
+            <Redirect to={to} />
+            <Route path='/dashboard' component={Dashbd} push={true} />
+          </div>
         </Router>
       )
     };
@@ -54,11 +63,11 @@ export default class Welcome extends Component {
               <input type="text" name="name" id={this.state.id} onChange={this.handleChange}/>
             </label>
           </form>
-          
-          <div>
-              <input type="submit" name="Let's start" onClick={this.goToDashboard}/>
-          </div>
 
+          <div>
+            <input type="submit" name="Let's start" onClick={this.goToDashboard}/>
+          </div>
+    
           <p><a
             className="Autistica Website"
             href="https://www.autistica.org.uk/"
