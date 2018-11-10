@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
-
-import logo from '../logo.svg';
-//import './Welcome.css';
 import { BrowserRouter as Router, Route, Link} from "react-router-dom";
 import { Redirect } from 'react-router';
 import Question from './Question.js';
 import Welcome from './Welcome.js'
 import './Dashboard.css';
-
-//const Question = () => <Question />;
 
 export default class Dashboard extends React.Component {
 
