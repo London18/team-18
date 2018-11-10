@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import fire from '../db.js';
 import "./Question.css";
+import question_option from './questions_options.js';
 import { BrowserRouter as Router, Route, Link} from "react-router-dom";
 import { Redirect } from 'react-router';
 import Dashboard from './Dashboard.js';
@@ -21,7 +22,7 @@ class Question extends Component {
   constructor(props) {
     super(props);
     this.state = {qs: [],
-                  type: [],
+                  type: question_option,
                   ans: [],
                   text: 'Select',
                   point: 0,
@@ -37,16 +38,18 @@ class Question extends Component {
   }
 
   componentDidMount() {
+    var count=0;
     const question_types = fire.database().ref().child('Formats').orderByKey();
     const question_bank = fire.database().ref().child('Questions').orderByKey();
-    question_types.once('value', snapshot => {
-      snapshot.forEach(child => this.setState(this.state.type.concat(child.node_.value_)));
-    })
 
     question_bank.once('value', snapshot => {
       snapshot.forEach(child => {
         this.setState({qs : this.state.qs.concat(child.node_.value_)});
       });
+    })
+
+    question_types.once('value', snapshot => {
+      snapshot.forEach(child => this.setState(this.state.type.concat(child.node_.value_)));
     })
   }
 
