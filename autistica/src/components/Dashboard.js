@@ -10,25 +10,26 @@ import './Dashboard.css';
 
 export default class Dashboard extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-       value: '',
-       showQuestions: false,
-       logout: false,
+    constructor(props) {
+        super(props);
+        this.state = {
+        value: '',
+        showQuestions: false,
+        logout: false,
+        };
+        
+        this.goToQuestions = this.goToQuestions.bind(this);
+        this.goToHomePage = this.goToHomePage.bind(this);
     };
-    this.goToQuestions = this.goToQuestions.bind(this);
-    this.goToHomePage = this.goToHomePage.bind(this);
-  };
 
-  handleChange(event) {
-      this.setState({value: event.target.value});
-  }
+    handleChange(event) {
+        this.setState({value: event.target.value});
+    }
 
-  goToHomePage(event) {
-    this.setState({logout: true});
-    event.preventDefault();
-  }
+    goToHomePage(event) {
+        this.setState({logout: true});
+        event.preventDefault();
+    }
 
   goToQuestions(event) {
         this.setState({showQuestions: true});
@@ -46,7 +47,8 @@ export default class Dashboard extends React.Component {
             </div>
           </Router>
         )
-      };
+    };
+    
     if (this.state.logout) {
         return (
           <Router>
@@ -56,7 +58,7 @@ export default class Dashboard extends React.Component {
             </div>
           </Router>
         )
-      };
+    };
 
     return (
       <div className='Dashboard-header'>
